@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "motion": "^12.19.1",
+    "react-router-dom": "^7.6.2"
+  },
+  "devDependencies": {
+    "sass-embedded": "^1.89.2"
+  }
+}
