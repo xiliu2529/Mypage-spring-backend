@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Optional;
-
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "https://cool-baklava-1b8557.netlify.app"
+})
 @RequestMapping("/api")
 public class LoginController {
 
