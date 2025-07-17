@@ -14,6 +14,7 @@ import java.util.Optional;
         "http://localhost:3000",
         "http://localhost:5173",
         "https://cool-baklava-1b8557.netlify.app"
+
 })
 @RequestMapping("/api")
 public class LoginController {
