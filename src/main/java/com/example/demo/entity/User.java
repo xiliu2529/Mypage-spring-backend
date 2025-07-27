@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 
 @Entity
-@Table(name = "users")  // 表名根据实际数据库表改
+@Table(name = "user")  // 表名根据实际数据库表改
 public class User {
 
     @Id
