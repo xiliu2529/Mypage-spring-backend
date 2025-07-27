@@ -1,19 +1,34 @@
+package com.example.demo.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+
 @Entity
-@Table(name = "user")
+@Table(name = "users")  // 表名根据实际数据库表改
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // 主键，数据库确实有的
+    private Long id;
 
-    @Column(name = "userid")  // 这个是你数据库里用来登录的字段名
+    @Column(nullable = false, unique = true)
     private String userid;
 
+    @Column(nullable = false)
     private String password;
 
-    // getter 和 setter
+    // 省略构造函数、getter 和 setter
+
+    public User() {}
+
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -21,6 +36,7 @@ public class User {
     public String getUserid() {
         return userid;
     }
+
     public void setUserid(String userid) {
         this.userid = userid;
     }
@@ -28,6 +44,7 @@ public class User {
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
