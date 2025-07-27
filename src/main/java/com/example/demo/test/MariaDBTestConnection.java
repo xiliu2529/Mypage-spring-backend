@@ -7,9 +7,13 @@ import java.sql.SQLException;
 public class MariaDBTestConnection {
 
     public static void main(String[] args) {
-        String url = "jdbc:mysql://mysql-xiliubat.alwaysdata.net:3306/xiliubat_myapp_db?useSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=true&verifyServerCertificate=false";
-        String username = "xiliubat";
-        String password = "Hlt3507222";
+
+        // 这里 URL 不包含账号密码
+        String url = "jdbc:postgresql://aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres";
+
+        // 账号密码单独写
+        String username = "postgres.odqwkogljynurbdtbxcj";
+        String password = "NKkxKROiN8L53pJ2";
 
         try {
             System.out.println("正在尝试连接数据库...");
