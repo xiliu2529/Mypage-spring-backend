@@ -12,9 +12,12 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
 
         // 添加跨域映射路径，/** 表示允许所有路径的跨域请求
-        registry.addMapping("/**")
                 // 允许的请求源（域名）模式，允许来自 "https://xiliu.netlify.app" 的请求，注意结尾的斜杠
-                .allowedOriginPatterns("https://xiliu.netlify.app/")
+        registry.addMapping("/**")
+                .allowedOriginPatterns(
+                        "http://localhost:5173",
+                        "https://xiliu.netlify.app"
+                )
                 // 允许所有 HTTP 请求方法（GET, POST, PUT, DELETE等）
                 .allowedMethods("*")
                 // 允许所有请求头

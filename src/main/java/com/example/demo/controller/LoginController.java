@@ -40,6 +40,34 @@ public class LoginController {
         ));
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<Map<String, Object>> register(@RequestBody Map<String, String> registerInfo) {
+        String username = registerInfo.get("username");
+        String password = registerInfo.get("password");
+
+        Optional<User> optionalUser = userRepository.findByUserid(username);
+
+        if (optionalUser.isPresent()) {
+            // 用户已存在
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
+                    "success", false,
+                    "message", "用户名已存在"
+            ));
+        }
+
+        // 创建新用户
+        User newUser = new User();
+        newUser.setUserid(username);
+        newUser.setPassword(password);  // 生产环境请使用加密！
+
+        userRepository.save(newUser);
+
+        return ResponseEntity.ok(Map.of(
+                "success", true,
+                "message", "注册成功"
+        ));
+    }
+
     // ✅ 加入这个 GET 接口，用于 Render 保活或测试
     @GetMapping("/ping")
     public String ping() {
