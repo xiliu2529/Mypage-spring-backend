@@ -1,7 +1,7 @@
 package com.example.demo.controller;
-
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +27,12 @@ public class LoginController {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             if (user.getPassword().equals(password)) {
+                String token = JwtUtil.generateToken(username);
+
                 return ResponseEntity.ok(Map.of(
                         "success", true,
-                        "message", "登录成功"
+                        "message", "登录成功",
+                        "token", token
                 ));
             }
         }
