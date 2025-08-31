@@ -1,4 +1,5 @@
 package com.example.demo.controller;
+
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.util.JwtUtil;
@@ -17,16 +18,18 @@ public class LoginController {
     @Autowired
     private UserRepository userRepository;
 
+
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> loginInfo) {
         String username = loginInfo.get("username");
         String password = loginInfo.get("password");
 
-        Optional<User> optionalUser = userRepository.findByUserid(username);
+        Optional<User> optionalUser = userRepository.findByUsername(username);
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            if (user.getPassword().equals(password)) {
+            // 这里匹配 passwordHash
+            if (user.getPasswordHash().equals(password)) {  // 生产环境请改为加密匹配
                 String token = JwtUtil.generateToken(username);
 
                 return ResponseEntity.ok(Map.of(
@@ -48,7 +51,7 @@ public class LoginController {
         String username = registerInfo.get("username");
         String password = registerInfo.get("password");
 
-        Optional<User> optionalUser = userRepository.findByUserid(username);
+        Optional<User> optionalUser = userRepository.findByUsername(username);
 
         if (optionalUser.isPresent()) {
             // 用户已存在
@@ -60,8 +63,8 @@ public class LoginController {
 
         // 创建新用户
         User newUser = new User();
-        newUser.setUserid(username);
-        newUser.setPassword(password);  // 生产环境请使用加密！
+        newUser.setUsername(username);
+        newUser.setPasswordHash(password); // 生产环境请使用加密
 
         userRepository.save(newUser);
 
@@ -71,7 +74,6 @@ public class LoginController {
         ));
     }
 
-    // ✅ 加入这个 GET 接口，用于 Render 保活或测试
     @GetMapping("/ping")
     public String ping() {
         return "OK";

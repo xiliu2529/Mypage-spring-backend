@@ -1,32 +1,27 @@
 package com.example.demo.entity;
 
-// 引入 JPA 注解，用于实体类和表的映射
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-
+import lombok.Data;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user_info")
+@Data  // ✅ 自动生成 getter / setter / toString / equals / hashCode
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long userId;  // 对应 user_id 自增主键
+    private Long userId;
 
     @Column(name = "username", nullable = false, length = 50, unique = true)
-    private String username;  // 对应用户名
+    private String username;
 
     @Column(name = "email", length = 100, unique = true)
-    private String email;  // 用户邮箱，可空
+    private String email;
 
     @Column(name = "password_hash", nullable = false, length = 255)
-    private String passwordHash;  // 密码哈希
+    private String passwordHash;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
@@ -34,7 +29,5 @@ public class User {
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
-    public User() {}
 
-    // getter & setter ...
 }
