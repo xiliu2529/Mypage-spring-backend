@@ -42,7 +42,12 @@ public class LoginController {
                 return ResponseEntity.ok(Map.of(
                         "success", true,
                         "message", "登录成功",
-                        "token", token
+                        "token", token,
+                        "user", Map.of(
+                                "id", user.getUserId().toString(),
+                                "username", user.getUsername(),
+                                "email", user.getEmail()
+                        )
                 ));
             }
         }
@@ -77,7 +82,12 @@ public class LoginController {
 
         return ResponseEntity.ok(Map.of(
                 "success", true,
-                "message", "注册成功"
+                "message", "注册成功",
+                "user", Map.of(
+                        "id", newUser.getUserId().toString(),
+                        "username", newUser.getUsername(),
+                        "email", newUser.getEmail()
+                )
         ));
     }
 
