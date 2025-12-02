@@ -5,29 +5,36 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_info")
-@Data  // ✅ 自动生成 getter / setter / toString / equals / hashCode
-public class User {
+@Table(name = "articles")
+@Data
+public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "article_id")
+    private Long articleId;
 
-    @Column(name = "username", nullable = false, length = 50, unique = true)
-    private String username;
+    @Column(name = "title", nullable = false, length = 255)
+    private String title;
 
-    @Column(name = "email", length = 100, unique = true)
-    private String email;
+    @Column(name = "content", columnDefinition = "TEXT")
+    private String content;
 
-    @Column(name = "password_hash", nullable = false, length = 255)
-    private String passwordHash;
+    @Column(name = "date", nullable = false, length = 10)
+    private String date;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private Long userId;
 
     // JPA生命周期回调 - 在保存前自动设置时间戳
     @PrePersist

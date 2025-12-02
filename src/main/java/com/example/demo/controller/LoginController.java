@@ -6,6 +6,7 @@ import com.example.demo.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -18,6 +19,12 @@ public class LoginController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> loginInfo) {
@@ -28,9 +35,9 @@ public class LoginController {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            // 这里匹配 passwordHash
-            if (user.getPasswordHash().equals(password)) {  // 生产环境请改为加密匹配
-                String token = JwtUtil.generateToken(username);
+            // 使用BCrypt验证密码
+            if (passwordEncoder.matches(password, user.getPasswordHash())) {
+                String token = jwtUtil.generateToken(username);
 
                 return ResponseEntity.ok(Map.of(
                         "success", true,
@@ -64,7 +71,7 @@ public class LoginController {
         // 创建新用户
         User newUser = new User();
         newUser.setUsername(username);
-        newUser.setPasswordHash(password); // 生产环境请使用加密
+        newUser.setPasswordHash(passwordEncoder.encode(password)); // 使用BCrypt加密
 
         userRepository.save(newUser);
 
